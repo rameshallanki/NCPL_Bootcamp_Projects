@@ -1,0 +1,9 @@
+{
+	"name": "Bootcamp-Projects-DataFactory",
+	"location": "uksouth",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "a0eb38b9-19af-4b20-b76e-74bab5a94d2a",
+		"tenantId": "f2d69dfc-364b-41e8-aa05-5e7e081851e1"
+	}
+}

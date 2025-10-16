@@ -1,0 +1,25 @@
+{
+	"name": "DSforSinkAPISalesData",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LSforADLS01",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": "Raw_API_SalesData.csv",
+				"folderPath": "Raw-API-SalesData",
+				"fileSystem": "bootcamp01-container"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": []
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

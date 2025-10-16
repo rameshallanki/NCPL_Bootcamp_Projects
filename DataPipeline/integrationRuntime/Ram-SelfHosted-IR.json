@@ -1,0 +1,6 @@
+{
+	"name": "Ram-SelfHosted-IR",
+	"properties": {
+		"type": "SelfHosted"
+	}
+}
