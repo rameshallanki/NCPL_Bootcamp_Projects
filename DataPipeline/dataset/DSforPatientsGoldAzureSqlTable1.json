@@ -1,0 +1,16 @@
+{
+	"name": "DSforPatientsGoldAzureSqlTable1",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "DSforPatientGoldDataAzureSqlDB",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "Patients_Final_Gold_Data"
+		}
+	}
+}
