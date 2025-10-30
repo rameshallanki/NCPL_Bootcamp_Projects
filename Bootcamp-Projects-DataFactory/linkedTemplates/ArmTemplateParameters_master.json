@@ -1,0 +1,78 @@
+{
+	"$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"value": "Bootcamp-Projects-DataFactory"
+		},
+		"AzureDatabricks1_accessToken": {
+			"value": ""
+		},
+		"DSforPatientGoldDataAzureSqlDB_password": {
+			"value": ""
+		},
+		"LSforADLS01_accountKey": {
+			"value": ""
+		},
+		"LSforAzureSqlDatabase1_password": {
+			"value": ""
+		},
+		"LSforSalesDataAzureSqlDatabase101_password": {
+			"value": ""
+		},
+		"MySql1_password": {
+			"value": ""
+		},
+		"AzureDatabricks1_properties_typeProperties_existingClusterId": {
+			"value": "1022-165503-ewpjnkhz"
+		},
+		"DSforPatientGoldDataAzureSqlDB_properties_typeProperties_server": {
+			"value": "ncpl-bootcamp-server102.database.windows.net"
+		},
+		"DSforPatientGoldDataAzureSqlDB_properties_typeProperties_database": {
+			"value": "Bootcamp02SqlDB"
+		},
+		"DSforPatientGoldDataAzureSqlDB_properties_typeProperties_userName": {
+			"value": "Ramesh"
+		},
+		"LSforADLS01_properties_typeProperties_url": {
+			"value": "https://storageforbootcamp.dfs.core.windows.net/"
+		},
+		"LSforAPISalesData_properties_typeProperties_url": {
+			"value": "https://530b370d-691a-4c97-b0fa-c16fec8a4ff2.mock.pstmn.io/Sales_Data01"
+		},
+		"LSforAzureSqlDatabase1_properties_typeProperties_server": {
+			"value": "ncpl-bootcamp-server102.database.windows.net"
+		},
+		"LSforAzureSqlDatabase1_properties_typeProperties_database": {
+			"value": "BootCamp_ProjectDB01"
+		},
+		"LSforAzureSqlDatabase1_properties_typeProperties_userName": {
+			"value": "Ramesh"
+		},
+		"LSforSalesDataAzureSqlDatabase101_properties_typeProperties_server": {
+			"value": "ncpl-bootcamp-server102.database.windows.net"
+		},
+		"LSforSalesDataAzureSqlDatabase101_properties_typeProperties_database": {
+			"value": "BootCamp_ProjectDB01"
+		},
+		"LSforSalesDataAzureSqlDatabase101_properties_typeProperties_userName": {
+			"value": "Ramesh"
+		},
+		"MySql1_properties_typeProperties_server": {
+			"value": "Ramesh_Allanki"
+		},
+		"MySql1_properties_typeProperties_database": {
+			"value": "bootcamp_project"
+		},
+		"MySql1_properties_typeProperties_username": {
+			"value": "root"
+		},
+		"containerUri": {
+			"value": ""
+		},
+		"containerSasToken": {
+			"value": ""
+		}
+	}
+}

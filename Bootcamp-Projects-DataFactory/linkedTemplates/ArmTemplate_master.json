@@ -1,0 +1,209 @@
+{
+	"$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"type": "string",
+			"metadata": "Data Factory name",
+			"defaultValue": "Bootcamp-Projects-DataFactory"
+		},
+		"AzureDatabricks1_accessToken": {
+			"type": "secureString",
+			"metadata": "Secure string for 'accessToken' of 'AzureDatabricks1'"
+		},
+		"DSforPatientGoldDataAzureSqlDB_password": {
+			"type": "secureString",
+			"metadata": "Secure string for 'password' of 'DSforPatientGoldDataAzureSqlDB'"
+		},
+		"LSforADLS01_accountKey": {
+			"type": "secureString",
+			"metadata": "Secure string for 'accountKey' of 'LSforADLS01'"
+		},
+		"LSforAzureSqlDatabase1_password": {
+			"type": "secureString",
+			"metadata": "Secure string for 'password' of 'LSforAzureSqlDatabase1'"
+		},
+		"LSforSalesDataAzureSqlDatabase101_password": {
+			"type": "secureString",
+			"metadata": "Secure string for 'password' of 'LSforSalesDataAzureSqlDatabase101'"
+		},
+		"MySql1_password": {
+			"type": "secureString",
+			"metadata": "Secure string for 'password' of 'MySql1'"
+		},
+		"AzureDatabricks1_properties_typeProperties_existingClusterId": {
+			"type": "string",
+			"defaultValue": "1022-165503-ewpjnkhz"
+		},
+		"DSforPatientGoldDataAzureSqlDB_properties_typeProperties_server": {
+			"type": "string",
+			"defaultValue": "ncpl-bootcamp-server102.database.windows.net"
+		},
+		"DSforPatientGoldDataAzureSqlDB_properties_typeProperties_database": {
+			"type": "string",
+			"defaultValue": "Bootcamp02SqlDB"
+		},
+		"DSforPatientGoldDataAzureSqlDB_properties_typeProperties_userName": {
+			"type": "string",
+			"defaultValue": "Ramesh"
+		},
+		"LSforADLS01_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://storageforbootcamp.dfs.core.windows.net/"
+		},
+		"LSforAPISalesData_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://530b370d-691a-4c97-b0fa-c16fec8a4ff2.mock.pstmn.io/Sales_Data01"
+		},
+		"LSforAzureSqlDatabase1_properties_typeProperties_server": {
+			"type": "string",
+			"defaultValue": "ncpl-bootcamp-server102.database.windows.net"
+		},
+		"LSforAzureSqlDatabase1_properties_typeProperties_database": {
+			"type": "string",
+			"defaultValue": "BootCamp_ProjectDB01"
+		},
+		"LSforAzureSqlDatabase1_properties_typeProperties_userName": {
+			"type": "string",
+			"defaultValue": "Ramesh"
+		},
+		"LSforSalesDataAzureSqlDatabase101_properties_typeProperties_server": {
+			"type": "string",
+			"defaultValue": "ncpl-bootcamp-server102.database.windows.net"
+		},
+		"LSforSalesDataAzureSqlDatabase101_properties_typeProperties_database": {
+			"type": "string",
+			"defaultValue": "BootCamp_ProjectDB01"
+		},
+		"LSforSalesDataAzureSqlDatabase101_properties_typeProperties_userName": {
+			"type": "string",
+			"defaultValue": "Ramesh"
+		},
+		"MySql1_properties_typeProperties_server": {
+			"type": "string",
+			"defaultValue": "Ramesh_Allanki"
+		},
+		"MySql1_properties_typeProperties_database": {
+			"type": "string",
+			"defaultValue": "bootcamp_project"
+		},
+		"MySql1_properties_typeProperties_username": {
+			"type": "string",
+			"defaultValue": "root"
+		},
+		"containerUri": {
+			"type": "string",
+			"metadata": "URI to storage account containing linked ARM templates"
+		},
+		"containerSasToken": {
+			"type": "string",
+			"metadata": "Sas token to storage account containing linked ARM templates"
+		}
+	},
+	"variables": {
+		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
+	},
+	"resources": [
+		{
+			"name": "Bootcamp-Projects-DataFactory_ArmTemplate_0",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2024-03-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_0.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					},
+					"MySql1_password": {
+						"value": "[parameters('MySql1_password')]"
+					},
+					"AzureDatabricks1_accessToken": {
+						"value": "[parameters('AzureDatabricks1_accessToken')]"
+					},
+					"DSforPatientGoldDataAzureSqlDB_password": {
+						"value": "[parameters('DSforPatientGoldDataAzureSqlDB_password')]"
+					},
+					"LSforADLS01_accountKey": {
+						"value": "[parameters('LSforADLS01_accountKey')]"
+					},
+					"LSforAzureSqlDatabase1_password": {
+						"value": "[parameters('LSforAzureSqlDatabase1_password')]"
+					},
+					"LSforSalesDataAzureSqlDatabase101_password": {
+						"value": "[parameters('LSforSalesDataAzureSqlDatabase101_password')]"
+					},
+					"MySql1_properties_typeProperties_server": {
+						"value": "[parameters('MySql1_properties_typeProperties_server')]"
+					},
+					"MySql1_properties_typeProperties_database": {
+						"value": "[parameters('MySql1_properties_typeProperties_database')]"
+					},
+					"MySql1_properties_typeProperties_username": {
+						"value": "[parameters('MySql1_properties_typeProperties_username')]"
+					},
+					"AzureDatabricks1_properties_typeProperties_existingClusterId": {
+						"value": "[parameters('AzureDatabricks1_properties_typeProperties_existingClusterId')]"
+					},
+					"DSforPatientGoldDataAzureSqlDB_properties_typeProperties_server": {
+						"value": "[parameters('DSforPatientGoldDataAzureSqlDB_properties_typeProperties_server')]"
+					},
+					"DSforPatientGoldDataAzureSqlDB_properties_typeProperties_database": {
+						"value": "[parameters('DSforPatientGoldDataAzureSqlDB_properties_typeProperties_database')]"
+					},
+					"DSforPatientGoldDataAzureSqlDB_properties_typeProperties_userName": {
+						"value": "[parameters('DSforPatientGoldDataAzureSqlDB_properties_typeProperties_userName')]"
+					},
+					"LSforADLS01_properties_typeProperties_url": {
+						"value": "[parameters('LSforADLS01_properties_typeProperties_url')]"
+					},
+					"LSforAPISalesData_properties_typeProperties_url": {
+						"value": "[parameters('LSforAPISalesData_properties_typeProperties_url')]"
+					},
+					"LSforAzureSqlDatabase1_properties_typeProperties_server": {
+						"value": "[parameters('LSforAzureSqlDatabase1_properties_typeProperties_server')]"
+					},
+					"LSforAzureSqlDatabase1_properties_typeProperties_database": {
+						"value": "[parameters('LSforAzureSqlDatabase1_properties_typeProperties_database')]"
+					},
+					"LSforAzureSqlDatabase1_properties_typeProperties_userName": {
+						"value": "[parameters('LSforAzureSqlDatabase1_properties_typeProperties_userName')]"
+					},
+					"LSforSalesDataAzureSqlDatabase101_properties_typeProperties_server": {
+						"value": "[parameters('LSforSalesDataAzureSqlDatabase101_properties_typeProperties_server')]"
+					},
+					"LSforSalesDataAzureSqlDatabase101_properties_typeProperties_database": {
+						"value": "[parameters('LSforSalesDataAzureSqlDatabase101_properties_typeProperties_database')]"
+					},
+					"LSforSalesDataAzureSqlDatabase101_properties_typeProperties_userName": {
+						"value": "[parameters('LSforSalesDataAzureSqlDatabase101_properties_typeProperties_userName')]"
+					}
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "Bootcamp-Projects-DataFactory_ArmTemplate_1",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2024-03-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_1.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					}
+				}
+			},
+			"dependsOn": [
+				"[resourceId('Microsoft.Resources/deployments', 'Bootcamp-Projects-DataFactory_ArmTemplate_0')]"
+			]
+		}
+	]
+}
