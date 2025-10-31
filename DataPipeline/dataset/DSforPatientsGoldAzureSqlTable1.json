@@ -10,7 +10,7 @@
 		"schema": [],
 		"typeProperties": {
 			"schema": "dbo",
-			"table": "Patients_Final_Gold_Data"
+			"table": "Patients_Final_Gold_Data02"
 		}
 	}
 }

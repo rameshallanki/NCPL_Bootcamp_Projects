@@ -1,0 +1,146 @@
+{
+	"name": "DSforParquetPatientsGoldData1",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LSforADLS01",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Parquet",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": "part-00000-tid-250635760483133582-2538dfa4-2044-4078-ad83-82169245e4b9-3279-1-c000.snappy.parquet",
+				"folderPath": "Gold-Layer/Patients_Final_Gold_Data",
+				"fileSystem": "bootcamp02-container"
+			},
+			"compressionCodec": "snappy"
+		},
+		"schema": [
+			{
+				"name": "Patient_ID",
+				"type": "UTF8"
+			},
+			{
+				"name": "Patient_Name",
+				"type": "UTF8"
+			},
+			{
+				"name": "Age",
+				"type": "INT64"
+			},
+			{
+				"name": "Gender",
+				"type": "UTF8"
+			},
+			{
+				"name": "Age_Category",
+				"type": "UTF8"
+			},
+			{
+				"name": "Blood_Type",
+				"type": "UTF8"
+			},
+			{
+				"name": "Reference_Number",
+				"type": "UTF8"
+			},
+			{
+				"name": "Admission_ID",
+				"type": "UTF8"
+			},
+			{
+				"name": "Medical_ID",
+				"type": "UTF8"
+			},
+			{
+				"name": "Insurance_ID",
+				"type": "UTF8"
+			},
+			{
+				"name": "Medical_Condition",
+				"type": "UTF8"
+			},
+			{
+				"name": "Doctor",
+				"type": "UTF8"
+			},
+			{
+				"name": "Hospital",
+				"type": "UTF8"
+			},
+			{
+				"name": "Medication",
+				"type": "UTF8"
+			},
+			{
+				"name": "Test_Results",
+				"type": "UTF8"
+			},
+			{
+				"name": "Date_of_Admission",
+				"type": "UTF8"
+			},
+			{
+				"name": "Discharge_Date",
+				"type": "UTF8"
+			},
+			{
+				"name": "Admission_Type",
+				"type": "UTF8"
+			},
+			{
+				"name": "Room_Number",
+				"type": "INT64"
+			},
+			{
+				"name": "Length_Of_Stay",
+				"type": "INT64"
+			},
+			{
+				"name": "Insurance_Status",
+				"type": "UTF8"
+			},
+			{
+				"name": "Insurance_Provider",
+				"type": "UTF8"
+			},
+			{
+				"name": "Billing_Amount",
+				"type": "DOUBLE"
+			},
+			{
+				"name": "Billing_Category",
+				"type": "UTF8"
+			},
+			{
+				"name": "isEligibleForClaim",
+				"type": "UTF8"
+			},
+			{
+				"name": "Risk_Score",
+				"type": "INT64"
+			},
+			{
+				"name": "Risk_Category",
+				"type": "UTF8"
+			},
+			{
+				"name": "Insurance_Claim_Probability",
+				"type": "DOUBLE"
+			},
+			{
+				"name": "Effective_Date",
+				"type": "UTF8"
+			},
+			{
+				"name": "End_Date",
+				"type": "UTF8"
+			},
+			{
+				"name": "Is_Current",
+				"type": "BOOLEAN"
+			}
+		]
+	}
+}
