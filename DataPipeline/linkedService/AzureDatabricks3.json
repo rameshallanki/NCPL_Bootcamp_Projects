@@ -1,0 +1,21 @@
+{
+	"name": "AzureDatabricks3",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"annotations": [],
+		"type": "AzureDatabricks",
+		"typeProperties": {
+			"domain": "https://adb-3141012479002376.16.azuredatabricks.net",
+			"newClusterNodeType": "Standard_D32as_v4",
+			"newClusterNumOfWorker": "1",
+			"newClusterVersion": "16.4.x-cpu-ml-photon-scala2.12",
+			"clusterOption": "Fixed",
+			"newClusterInitScripts": [],
+			"encryptedCredential": "ew0KICAiVmVyc2lvbiI6ICIyMDE3LTExLTMwIiwNCiAgIlByb3RlY3Rpb25Nb2RlIjogIktleSIsDQogICJTZWNyZXRDb250ZW50VHlwZSI6ICJQbGFpbnRleHQiLA0KICAiQ3JlZGVudGlhbElkIjogIkRBVEFGQUNUT1JZQEQyQUYyQTc1LTVDNkUtNDAwRi1BREEwLTAyQjk5NUZCQkNERV9lMTNmMTY4Yy00N2FkLTQ3ZWItYjgwYi1jZTE1MDhjNGYxYzUiDQp9"
+		},
+		"connectVia": {
+			"referenceName": "AutoResolveIntegrationRuntime",
+			"type": "IntegrationRuntimeReference"
+		}
+	}
+}
