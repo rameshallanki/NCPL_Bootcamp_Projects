@@ -1,0 +1,21 @@
+{
+	"name": "LSforSqlServer01",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"annotations": [],
+		"type": "SqlServer",
+		"typeProperties": {
+			"server": "RAMESH_ALLANKI\\SQLEXPRESS",
+			"database": "BootCamp03-DB",
+			"encrypt": "mandatory",
+			"trustServerCertificate": true,
+			"authenticationType": "SQL",
+			"userName": "Bootcamp03",
+			"encryptedCredential": "eyJDcmVkZW50aWFsSWQiOiIxZTg1MjU1OS02Yzk0LTQ4YzgtOGVlZC0zYTUyMzgxZjhhNzUiLCJWZXJzaW9uIjoiMi4wIiwiQ2xhc3NUeXBlIjoiTWljcm9zb2Z0LkRhdGFQcm94eS5Db3JlLkludGVyU2VydmljZURhdGFDb250cmFjdC5DcmVkZW50aWFsU1UwNkNZMTQifQ=="
+		},
+		"connectVia": {
+			"referenceName": "Ram-SelfHosted-IR",
+			"type": "IntegrationRuntimeReference"
+		}
+	}
+}
