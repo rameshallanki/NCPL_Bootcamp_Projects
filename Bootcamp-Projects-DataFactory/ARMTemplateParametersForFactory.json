@@ -5,7 +5,19 @@
 		"factoryName": {
 			"value": "Bootcamp-Projects-DataFactory"
 		},
+		"AzureDataLakeStorage1_accountKey": {
+			"value": ""
+		},
 		"AzureDatabricks1_accessToken": {
+			"value": ""
+		},
+		"AzureDatabricks2_accessToken": {
+			"value": ""
+		},
+		"AzureDatabricks3_accessToken": {
+			"value": ""
+		},
+		"AzureDatabricks4_accessToken": {
 			"value": ""
 		},
 		"DSforPatientGoldDataAzureSqlDB_password": {
@@ -20,10 +32,25 @@
 		"LSforSalesDataAzureSqlDatabase101_password": {
 			"value": ""
 		},
+		"LSforSqlServer01_password": {
+			"value": ""
+		},
+		"LSforSqlServer0711_password": {
+			"value": ""
+		},
 		"MySql1_password": {
 			"value": ""
 		},
+		"SqlServer1_password": {
+			"value": ""
+		},
+		"AzureDataLakeStorage1_properties_typeProperties_url": {
+			"value": "https://storageforbootcamp.dfs.core.windows.net/"
+		},
 		"AzureDatabricks1_properties_typeProperties_existingClusterId": {
+			"value": "1022-165503-ewpjnkhz"
+		},
+		"AzureDatabricks4_properties_typeProperties_existingClusterId": {
 			"value": "1022-165503-ewpjnkhz"
 		},
 		"DSforPatientGoldDataAzureSqlDB_properties_typeProperties_server": {
@@ -59,6 +86,24 @@
 		"LSforSalesDataAzureSqlDatabase101_properties_typeProperties_userName": {
 			"value": "Ramesh"
 		},
+		"LSforSqlServer01_properties_typeProperties_server": {
+			"value": "RAMESH_ALLANKI\\SQLEXPRESS"
+		},
+		"LSforSqlServer01_properties_typeProperties_database": {
+			"value": "BootCamp03-DB"
+		},
+		"LSforSqlServer01_properties_typeProperties_userName": {
+			"value": "Bootcamp03"
+		},
+		"LSforSqlServer0711_properties_typeProperties_server": {
+			"value": "RAMESH_ALLANKI\\SQLEXPRESS"
+		},
+		"LSforSqlServer0711_properties_typeProperties_database": {
+			"value": "BootCamp03-DB"
+		},
+		"LSforSqlServer0711_properties_typeProperties_userName": {
+			"value": "Bootcamp03"
+		},
 		"MySql1_properties_typeProperties_server": {
 			"value": "Ramesh_Allanki"
 		},
@@ -67,6 +112,15 @@
 		},
 		"MySql1_properties_typeProperties_username": {
 			"value": "root"
+		},
+		"SqlServer1_properties_typeProperties_server": {
+			"value": "RAMESH_ALLANKI\\SQLEXPRESS"
+		},
+		"SqlServer1_properties_typeProperties_database": {
+			"value": "BootCamp03-DB"
+		},
+		"SqlServer1_properties_typeProperties_userName": {
+			"value": "Ramesh_Allanki\\allan"
 		}
 	}
 }

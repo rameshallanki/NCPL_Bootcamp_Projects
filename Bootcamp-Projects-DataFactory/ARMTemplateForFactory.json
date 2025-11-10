@@ -7,9 +7,25 @@
 			"metadata": "Data Factory name",
 			"defaultValue": "Bootcamp-Projects-DataFactory"
 		},
+		"AzureDataLakeStorage1_accountKey": {
+			"type": "secureString",
+			"metadata": "Secure string for 'accountKey' of 'AzureDataLakeStorage1'"
+		},
 		"AzureDatabricks1_accessToken": {
 			"type": "secureString",
 			"metadata": "Secure string for 'accessToken' of 'AzureDatabricks1'"
+		},
+		"AzureDatabricks2_accessToken": {
+			"type": "secureString",
+			"metadata": "Secure string for 'accessToken' of 'AzureDatabricks2'"
+		},
+		"AzureDatabricks3_accessToken": {
+			"type": "secureString",
+			"metadata": "Secure string for 'accessToken' of 'AzureDatabricks3'"
+		},
+		"AzureDatabricks4_accessToken": {
+			"type": "secureString",
+			"metadata": "Secure string for 'accessToken' of 'AzureDatabricks4'"
 		},
 		"DSforPatientGoldDataAzureSqlDB_password": {
 			"type": "secureString",
@@ -27,11 +43,31 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'password' of 'LSforSalesDataAzureSqlDatabase101'"
 		},
+		"LSforSqlServer01_password": {
+			"type": "secureString",
+			"metadata": "Secure string for 'password' of 'LSforSqlServer01'"
+		},
+		"LSforSqlServer0711_password": {
+			"type": "secureString",
+			"metadata": "Secure string for 'password' of 'LSforSqlServer0711'"
+		},
 		"MySql1_password": {
 			"type": "secureString",
 			"metadata": "Secure string for 'password' of 'MySql1'"
 		},
+		"SqlServer1_password": {
+			"type": "secureString",
+			"metadata": "Secure string for 'password' of 'SqlServer1'"
+		},
+		"AzureDataLakeStorage1_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://storageforbootcamp.dfs.core.windows.net/"
+		},
 		"AzureDatabricks1_properties_typeProperties_existingClusterId": {
+			"type": "string",
+			"defaultValue": "1022-165503-ewpjnkhz"
+		},
+		"AzureDatabricks4_properties_typeProperties_existingClusterId": {
 			"type": "string",
 			"defaultValue": "1022-165503-ewpjnkhz"
 		},
@@ -79,6 +115,30 @@
 			"type": "string",
 			"defaultValue": "Ramesh"
 		},
+		"LSforSqlServer01_properties_typeProperties_server": {
+			"type": "string",
+			"defaultValue": "RAMESH_ALLANKI\\SQLEXPRESS"
+		},
+		"LSforSqlServer01_properties_typeProperties_database": {
+			"type": "string",
+			"defaultValue": "BootCamp03-DB"
+		},
+		"LSforSqlServer01_properties_typeProperties_userName": {
+			"type": "string",
+			"defaultValue": "Bootcamp03"
+		},
+		"LSforSqlServer0711_properties_typeProperties_server": {
+			"type": "string",
+			"defaultValue": "RAMESH_ALLANKI\\SQLEXPRESS"
+		},
+		"LSforSqlServer0711_properties_typeProperties_database": {
+			"type": "string",
+			"defaultValue": "BootCamp03-DB"
+		},
+		"LSforSqlServer0711_properties_typeProperties_userName": {
+			"type": "string",
+			"defaultValue": "Bootcamp03"
+		},
 		"MySql1_properties_typeProperties_server": {
 			"type": "string",
 			"defaultValue": "Ramesh_Allanki"
@@ -90,6 +150,18 @@
 		"MySql1_properties_typeProperties_username": {
 			"type": "string",
 			"defaultValue": "root"
+		},
+		"SqlServer1_properties_typeProperties_server": {
+			"type": "string",
+			"defaultValue": "RAMESH_ALLANKI\\SQLEXPRESS"
+		},
+		"SqlServer1_properties_typeProperties_database": {
+			"type": "string",
+			"defaultValue": "BootCamp03-DB"
+		},
+		"SqlServer1_properties_typeProperties_userName": {
+			"type": "string",
+			"defaultValue": "Ramesh_Allanki\\allan"
 		}
 	},
 	"variables": {
@@ -545,481 +617,9 @@
 			"properties": {
 				"activities": [
 					{
-						"name": "Copy data1",
-						"type": "Copy",
-						"dependsOn": [
-							{
-								"activity": "Notebook1",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "ParquetSource",
-								"storeSettings": {
-									"type": "AzureBlobFSReadSettings",
-									"recursive": true,
-									"enablePartitionDiscovery": false
-								},
-								"formatSettings": {
-									"type": "ParquetReadSettings"
-								}
-							},
-							"sink": {
-								"type": "AzureSqlSink",
-								"writeBehavior": "insert",
-								"sqlWriterUseTableLock": false,
-								"tableOption": "autoCreate",
-								"disableMetricsCollection": false
-							},
-							"enableStaging": false,
-							"translator": {
-								"type": "TabularTranslator",
-								"mappings": [
-									{
-										"source": {
-											"name": "Patient_ID",
-											"type": "String",
-											"physicalType": "UTF8"
-										},
-										"sink": {
-											"name": "Patient_ID",
-											"type": "String",
-											"physicalType": "nvarchar"
-										}
-									},
-									{
-										"source": {
-											"name": "Patient_Name",
-											"type": "String",
-											"physicalType": "UTF8"
-										},
-										"sink": {
-											"name": "Patient_Name",
-											"type": "String",
-											"physicalType": "nvarchar"
-										}
-									},
-									{
-										"source": {
-											"name": "Age",
-											"type": "String",
-											"physicalType": "UTF8"
-										},
-										"sink": {
-											"name": "Age",
-											"type": "String",
-											"physicalType": "nvarchar"
-										}
-									},
-									{
-										"source": {
-											"name": "Gender",
-											"type": "String",
-											"physicalType": "UTF8"
-										},
-										"sink": {
-											"name": "Gender",
-											"type": "String",
-											"physicalType": "nvarchar"
-										}
-									},
-									{
-										"source": {
-											"name": "Age_Category",
-											"type": "String",
-											"physicalType": "UTF8"
-										},
-										"sink": {
-											"name": "Age_Category",
-											"type": "String",
-											"physicalType": "nvarchar"
-										}
-									},
-									{
-										"source": {
-											"name": "Blood_Type",
-											"type": "String",
-											"physicalType": "UTF8"
-										},
-										"sink": {
-											"name": "Blood_Type",
-											"type": "String",
-											"physicalType": "nvarchar"
-										}
-									},
-									{
-										"source": {
-											"name": "Reference_Number",
-											"type": "String",
-											"physicalType": "UTF8"
-										},
-										"sink": {
-											"name": "Reference_Number",
-											"type": "String",
-											"physicalType": "nvarchar"
-										}
-									},
-									{
-										"source": {
-											"name": "Admission_ID",
-											"type": "String",
-											"physicalType": "UTF8"
-										},
-										"sink": {
-											"name": "Admission_ID",
-											"type": "String",
-											"physicalType": "nvarchar"
-										}
-									},
-									{
-										"source": {
-											"name": "Medical_ID",
-											"type": "String",
-											"physicalType": "UTF8"
-										},
-										"sink": {
-											"name": "Medical_ID",
-											"type": "String",
-											"physicalType": "nvarchar"
-										}
-									},
-									{
-										"source": {
-											"name": "Insurance_ID",
-											"type": "String",
-											"physicalType": "UTF8"
-										},
-										"sink": {
-											"name": "Insurance_ID",
-											"type": "String",
-											"physicalType": "nvarchar"
-										}
-									},
-									{
-										"source": {
-											"name": "Medical_Condition",
-											"type": "String",
-											"physicalType": "UTF8"
-										},
-										"sink": {
-											"name": "Medical_Condition",
-											"type": "String",
-											"physicalType": "nvarchar"
-										}
-									},
-									{
-										"source": {
-											"name": "Doctor",
-											"type": "String",
-											"physicalType": "UTF8"
-										},
-										"sink": {
-											"name": "Doctor",
-											"type": "String",
-											"physicalType": "nvarchar"
-										}
-									},
-									{
-										"source": {
-											"name": "Hospital",
-											"type": "String",
-											"physicalType": "UTF8"
-										},
-										"sink": {
-											"name": "Hospital",
-											"type": "String",
-											"physicalType": "nvarchar"
-										}
-									},
-									{
-										"source": {
-											"name": "Medication",
-											"type": "String",
-											"physicalType": "UTF8"
-										},
-										"sink": {
-											"name": "Medication",
-											"type": "String",
-											"physicalType": "nvarchar"
-										}
-									},
-									{
-										"source": {
-											"name": "Test_Results",
-											"type": "String",
-											"physicalType": "UTF8"
-										},
-										"sink": {
-											"name": "Test_Results",
-											"type": "String",
-											"physicalType": "nvarchar"
-										}
-									},
-									{
-										"source": {
-											"name": "Date_of_Admission",
-											"type": "String",
-											"physicalType": "UTF8"
-										},
-										"sink": {
-											"name": "Date_of_Admission",
-											"type": "String",
-											"physicalType": "nvarchar"
-										}
-									},
-									{
-										"source": {
-											"name": "Discharge_Date",
-											"type": "String",
-											"physicalType": "UTF8"
-										},
-										"sink": {
-											"name": "Discharge_Date",
-											"type": "String",
-											"physicalType": "nvarchar"
-										}
-									},
-									{
-										"source": {
-											"name": "Admission_Type",
-											"type": "String",
-											"physicalType": "UTF8"
-										},
-										"sink": {
-											"name": "Admission_Type",
-											"type": "String",
-											"physicalType": "nvarchar"
-										}
-									},
-									{
-										"source": {
-											"name": "Room_Number",
-											"type": "String",
-											"physicalType": "UTF8"
-										},
-										"sink": {
-											"name": "Room_Number",
-											"type": "String",
-											"physicalType": "nvarchar"
-										}
-									},
-									{
-										"source": {
-											"name": "Length_Of_Stay",
-											"type": "String",
-											"physicalType": "UTF8"
-										},
-										"sink": {
-											"name": "Length_Of_Stay",
-											"type": "String",
-											"physicalType": "nvarchar"
-										}
-									},
-									{
-										"source": {
-											"name": "Insurance_Status",
-											"type": "String",
-											"physicalType": "UTF8"
-										},
-										"sink": {
-											"name": "Insurance_Status",
-											"type": "String",
-											"physicalType": "nvarchar"
-										}
-									},
-									{
-										"source": {
-											"name": "Insurance_Provider",
-											"type": "String",
-											"physicalType": "UTF8"
-										},
-										"sink": {
-											"name": "Insurance_Provider",
-											"type": "String",
-											"physicalType": "nvarchar"
-										}
-									},
-									{
-										"source": {
-											"name": "Billing_Amount",
-											"type": "String",
-											"physicalType": "UTF8"
-										},
-										"sink": {
-											"name": "Billing_Amount",
-											"type": "String",
-											"physicalType": "nvarchar"
-										}
-									},
-									{
-										"source": {
-											"name": "Billing_Category",
-											"type": "String",
-											"physicalType": "UTF8"
-										},
-										"sink": {
-											"name": "Billing_Category",
-											"type": "String",
-											"physicalType": "nvarchar"
-										}
-									},
-									{
-										"source": {
-											"name": "isEligibleForClaim",
-											"type": "String",
-											"physicalType": "UTF8"
-										},
-										"sink": {
-											"name": "isEligibleForClaim",
-											"type": "String",
-											"physicalType": "nvarchar"
-										}
-									},
-									{
-										"source": {
-											"name": "Risk_Score",
-											"type": "String",
-											"physicalType": "UTF8"
-										},
-										"sink": {
-											"name": "Risk_Score",
-											"type": "String",
-											"physicalType": "nvarchar"
-										}
-									},
-									{
-										"source": {
-											"name": "Risk_Category",
-											"type": "String",
-											"physicalType": "UTF8"
-										},
-										"sink": {
-											"name": "Risk_Category",
-											"type": "String",
-											"physicalType": "nvarchar"
-										}
-									},
-									{
-										"source": {
-											"name": "Insurance_Claim_Probability",
-											"type": "String",
-											"physicalType": "UTF8"
-										},
-										"sink": {
-											"name": "Insurance_Claim_Probability",
-											"type": "String",
-											"physicalType": "nvarchar"
-										}
-									},
-									{
-										"source": {
-											"name": "Effective_Date",
-											"type": "String",
-											"physicalType": "UTF8"
-										},
-										"sink": {
-											"name": "Effective_Date",
-											"type": "String",
-											"physicalType": "nvarchar"
-										}
-									},
-									{
-										"source": {
-											"name": "End_Date",
-											"type": "String",
-											"physicalType": "UTF8"
-										},
-										"sink": {
-											"name": "End_Date",
-											"type": "String",
-											"physicalType": "nvarchar"
-										}
-									},
-									{
-										"source": {
-											"name": "Is_Current",
-											"type": "Boolean",
-											"physicalType": "BOOLEAN"
-										},
-										"sink": {
-											"name": "Is_Current",
-											"type": "Boolean",
-											"physicalType": "bit"
-										}
-									},
-									{
-										"source": {
-											"name": "New_Medical_Condition",
-											"type": "String",
-											"physicalType": "UTF8"
-										},
-										"sink": {
-											"name": "New_Medical_Condition",
-											"type": "String",
-											"physicalType": "nvarchar"
-										}
-									},
-									{
-										"source": {
-											"name": "New_Doctor",
-											"type": "String",
-											"physicalType": "UTF8"
-										},
-										"sink": {
-											"name": "New_Doctor",
-											"type": "String",
-											"physicalType": "nvarchar"
-										}
-									},
-									{
-										"source": {
-											"name": "New_Billing_Amount",
-											"type": "String",
-											"physicalType": "UTF8"
-										},
-										"sink": {
-											"name": "New_Billing_Amount",
-											"type": "String",
-											"physicalType": "nvarchar"
-										}
-									}
-								],
-								"typeConversion": true,
-								"typeConversionSettings": {
-									"allowDataTruncation": true,
-									"treatBooleanAsNumber": false
-								}
-							}
-						},
-						"inputs": [
-							{
-								"referenceName": "DSforPatients_Gold_Data_Parquet1",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "DSforPatientsGoldAzureSqlTable1",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						]
-					},
-					{
-						"name": "Notebook1",
-						"type": "DatabricksNotebook",
+						"name": "Lookup1",
+						"description": "Copying list of Tables from Bootcamp03 DB",
+						"type": "Lookup",
 						"dependsOn": [],
 						"policy": {
 							"timeout": "0.12:00:00",
@@ -1030,11 +630,93 @@
 						},
 						"userProperties": [],
 						"typeProperties": {
-							"notebookPath": "/Users/allankiramesh.cv@gmail.com/BC02-Silver-Gold"
-						},
-						"linkedServiceName": {
-							"referenceName": "AzureDatabricks1",
-							"type": "LinkedServiceReference"
+							"source": {
+								"type": "SqlServerSource",
+								"queryTimeout": "02:00:00",
+								"partitionOption": "None"
+							},
+							"dataset": {
+								"referenceName": "DSforSqlServerTable0911",
+								"type": "DatasetReference",
+								"parameters": {}
+							},
+							"firstRowOnly": false
+						}
+					},
+					{
+						"name": "ForEach1",
+						"type": "ForEach",
+						"dependsOn": [
+							{
+								"activity": "Lookup1",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"items": {
+								"value": "@activity('Lookup1').output.value",
+								"type": "Expression"
+							},
+							"activities": [
+								{
+									"name": "Copy data1",
+									"description": "Copying the List of Tables from Lookup Activity",
+									"type": "Copy",
+									"dependsOn": [],
+									"policy": {
+										"timeout": "0.12:00:00",
+										"retry": 0,
+										"retryIntervalInSeconds": 30,
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"source": {
+											"type": "SqlServerSource",
+											"queryTimeout": "02:00:00",
+											"partitionOption": "None"
+										},
+										"sink": {
+											"type": "DelimitedTextSink",
+											"storeSettings": {
+												"type": "AzureBlobFSWriteSettings"
+											},
+											"formatSettings": {
+												"type": "DelimitedTextWriteSettings",
+												"quoteAllText": true,
+												"fileExtension": ".txt"
+											}
+										},
+										"enableStaging": false,
+										"translator": {
+											"type": "TabularTranslator",
+											"typeConversion": true,
+											"typeConversionSettings": {
+												"allowDataTruncation": true,
+												"treatBooleanAsNumber": false
+											}
+										}
+									},
+									"inputs": [
+										{
+											"referenceName": "DSforSqlServerTable0911",
+											"type": "DatasetReference",
+											"parameters": {}
+										}
+									],
+									"outputs": [
+										{
+											"referenceName": "DSforADLSRawData",
+											"type": "DatasetReference",
+											"parameters": {}
+										}
+									]
+								}
+							]
 						}
 					}
 				],
@@ -1044,9 +726,90 @@
 				"annotations": []
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/DSforPatients_Gold_Data_Parquet1')]",
-				"[concat(variables('factoryId'), '/datasets/DSforPatientsGoldAzureSqlTable1')]",
-				"[concat(variables('factoryId'), '/linkedServices/AzureDatabricks1')]"
+				"[concat(variables('factoryId'), '/datasets/DSforSqlServerTable0911')]",
+				"[concat(variables('factoryId'), '/datasets/DSforADLSRawData')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/pipeline2')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Data flow1",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "dataflow1",
+								"type": "DataFlowReference",
+								"parameters": {},
+								"datasetParameters": {
+									"AccountsRawData": {},
+									"CustomersRawData": {},
+									"DatesRawData": {},
+									"LocationRawData": {},
+									"TransactionsRawData": {},
+									"sink1": {},
+									"sink2": {},
+									"sink3": {},
+									"sink4": {},
+									"sink5": {}
+								}
+							},
+							"staging": {},
+							"compute": {
+								"coreCount": 8,
+								"computeType": "General"
+							},
+							"traceLevel": "Fine"
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/dataflows/dataflow1')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DSforADLSRawData')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LSforADLS01",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"folderPath": "RawData-Layer",
+						"fileSystem": "bootcamp03-container"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/LSforADLS01')]"
 			]
 		},
 		{
@@ -1065,6 +828,92 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/linkedServices/LSforAPISalesData')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DSforAccountsRawData')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LSforADLS01",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileName": "Accounts-RawData.csv",
+						"folderPath": "RawData-Layer/RD",
+						"fileSystem": "bootcamp03-container"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "account_id",
+						"type": "String"
+					},
+					{
+						"name": "customer_id",
+						"type": "String"
+					},
+					{
+						"name": "account_type",
+						"type": "String"
+					},
+					{
+						"name": "branch_id",
+						"type": "String"
+					},
+					{
+						"name": "balance",
+						"type": "String"
+					},
+					{
+						"name": "currency",
+						"type": "String"
+					},
+					{
+						"name": "opening_date",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/LSforADLS01')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DSforAccountsSilverData')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LSforADLS01",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"folderPath": "SilverData-Layer",
+						"fileSystem": "bootcamp03-container"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/LSforADLS01')]"
 			]
 		},
 		{
@@ -1122,6 +971,228 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/DSforCustomersRawData')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LSforADLS01",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileName": "Customers-RawData.csv",
+						"folderPath": "RawData-Layer/RD",
+						"fileSystem": "bootcamp03-container"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "customer_id",
+						"type": "String"
+					},
+					{
+						"name": "first_name",
+						"type": "String"
+					},
+					{
+						"name": "last_name",
+						"type": "String"
+					},
+					{
+						"name": "date_of_birth",
+						"type": "String"
+					},
+					{
+						"name": "email",
+						"type": "String"
+					},
+					{
+						"name": "zip_code",
+						"type": "String"
+					},
+					{
+						"name": "gender",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/LSforADLS01')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DSforDatesRawData')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LSforADLS01",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileName": "Dates-RawData.csv",
+						"folderPath": "RawData-Layer/RD",
+						"fileSystem": "bootcamp03-container"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "date_key",
+						"type": "String"
+					},
+					{
+						"name": "full_date",
+						"type": "String"
+					},
+					{
+						"name": "day_of_week",
+						"type": "String"
+					},
+					{
+						"name": "month_name",
+						"type": "String"
+					},
+					{
+						"name": "year",
+						"type": "String"
+					},
+					{
+						"name": "is_weekend",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/LSforADLS01')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DSforDatesSilverData')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LSforADLS01",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"folderPath": "SilverData-Layer",
+						"fileSystem": "bootcamp03-container"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/LSforADLS01')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DSforLocationRawData')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LSforADLS01",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileName": "Location-RawData.csv",
+						"folderPath": "RawData-Layer/RD",
+						"fileSystem": "bootcamp03-container"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "location_id",
+						"type": "String"
+					},
+					{
+						"name": "branch_id",
+						"type": "String"
+					},
+					{
+						"name": "branch_name",
+						"type": "String"
+					},
+					{
+						"name": "city",
+						"type": "String"
+					},
+					{
+						"name": "region",
+						"type": "String"
+					},
+					{
+						"name": "country",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/LSforADLS01')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DSforLocationSilverData')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LSforADLS01",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"folderPath": "SilverData-Layer",
+						"fileSystem": "bootcamp03-container"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/LSforADLS01')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/DSforMySqlProductsData')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -1169,6 +1240,157 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/DSforParquetPatientsGoldData1')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LSforADLS01",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "Parquet",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileName": "part-00000-tid-250635760483133582-2538dfa4-2044-4078-ad83-82169245e4b9-3279-1-c000.snappy.parquet",
+						"folderPath": "Gold-Layer/Patients_Final_Gold_Data",
+						"fileSystem": "bootcamp02-container"
+					},
+					"compressionCodec": "snappy"
+				},
+				"schema": [
+					{
+						"name": "Patient_ID",
+						"type": "UTF8"
+					},
+					{
+						"name": "Patient_Name",
+						"type": "UTF8"
+					},
+					{
+						"name": "Age",
+						"type": "INT64"
+					},
+					{
+						"name": "Gender",
+						"type": "UTF8"
+					},
+					{
+						"name": "Age_Category",
+						"type": "UTF8"
+					},
+					{
+						"name": "Blood_Type",
+						"type": "UTF8"
+					},
+					{
+						"name": "Reference_Number",
+						"type": "UTF8"
+					},
+					{
+						"name": "Admission_ID",
+						"type": "UTF8"
+					},
+					{
+						"name": "Medical_ID",
+						"type": "UTF8"
+					},
+					{
+						"name": "Insurance_ID",
+						"type": "UTF8"
+					},
+					{
+						"name": "Medical_Condition",
+						"type": "UTF8"
+					},
+					{
+						"name": "Doctor",
+						"type": "UTF8"
+					},
+					{
+						"name": "Hospital",
+						"type": "UTF8"
+					},
+					{
+						"name": "Medication",
+						"type": "UTF8"
+					},
+					{
+						"name": "Test_Results",
+						"type": "UTF8"
+					},
+					{
+						"name": "Date_of_Admission",
+						"type": "UTF8"
+					},
+					{
+						"name": "Discharge_Date",
+						"type": "UTF8"
+					},
+					{
+						"name": "Admission_Type",
+						"type": "UTF8"
+					},
+					{
+						"name": "Room_Number",
+						"type": "INT64"
+					},
+					{
+						"name": "Length_Of_Stay",
+						"type": "INT64"
+					},
+					{
+						"name": "Insurance_Status",
+						"type": "UTF8"
+					},
+					{
+						"name": "Insurance_Provider",
+						"type": "UTF8"
+					},
+					{
+						"name": "Billing_Amount",
+						"type": "DOUBLE"
+					},
+					{
+						"name": "Billing_Category",
+						"type": "UTF8"
+					},
+					{
+						"name": "isEligibleForClaim",
+						"type": "UTF8"
+					},
+					{
+						"name": "Risk_Score",
+						"type": "INT64"
+					},
+					{
+						"name": "Risk_Category",
+						"type": "UTF8"
+					},
+					{
+						"name": "Insurance_Claim_Probability",
+						"type": "DOUBLE"
+					},
+					{
+						"name": "Effective_Date",
+						"type": "UTF8"
+					},
+					{
+						"name": "End_Date",
+						"type": "UTF8"
+					},
+					{
+						"name": "Is_Current",
+						"type": "BOOLEAN"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/LSforADLS01')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/DSforPatientsGoldAzureSqlTable1')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -1182,7 +1404,7 @@
 				"schema": [],
 				"typeProperties": {
 					"schema": "dbo",
-					"table": "Patients_Final_Gold_Data"
+					"table": "Patients_Final_Gold_Data02"
 				}
 			},
 			"dependsOn": [
@@ -1411,6 +1633,198 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/DSforSqlServerTable0911')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LSforSqlServer0711",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [
+					{
+						"name": "account_id",
+						"type": "nvarchar"
+					},
+					{
+						"name": "customer_id",
+						"type": "nvarchar"
+					},
+					{
+						"name": "account_type",
+						"type": "nvarchar"
+					},
+					{
+						"name": "branch_id",
+						"type": "nvarchar"
+					},
+					{
+						"name": "balance",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "currency",
+						"type": "nvarchar"
+					},
+					{
+						"name": "opening_date",
+						"type": "nvarchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "Accounts-RawData"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/LSforSqlServer0711')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DSforTransactionsRawData')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LSforADLS01",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileName": "FactTransactions-Raw.csv",
+						"folderPath": "RawData-Layer/RD",
+						"fileSystem": "bootcamp03-container"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "transaction_id",
+						"type": "String"
+					},
+					{
+						"name": "account_id",
+						"type": "String"
+					},
+					{
+						"name": "customer_id",
+						"type": "String"
+					},
+					{
+						"name": "transaction_date",
+						"type": "String"
+					},
+					{
+						"name": "amount",
+						"type": "String"
+					},
+					{
+						"name": "transaction_type",
+						"type": "String"
+					},
+					{
+						"name": "merchant",
+						"type": "String"
+					},
+					{
+						"name": "location_id",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/LSforADLS01')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DSforTransactionsSilverData')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LSforADLS01",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"folderPath": "SilverData-Layer",
+						"fileSystem": "bootcamp03-container"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/LSforADLS01')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DsforCustomersSilverData')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LSforADLS01",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"folderPath": "SilverData-Layer",
+						"fileSystem": "bootcamp03-container"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/LSforADLS01')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/AzureDataLakeStorage1')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureBlobFS",
+				"typeProperties": {
+					"url": "[parameters('AzureDataLakeStorage1_properties_typeProperties_url')]",
+					"accountKey": {
+						"type": "SecureString",
+						"value": "[parameters('AzureDataLakeStorage1_accountKey')]"
+					}
+				},
+				"connectVia": {
+					"referenceName": "AutoResolveIntegrationRuntime",
+					"type": "IntegrationRuntimeReference"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/integrationRuntimes/AutoResolveIntegrationRuntime')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/AzureDatabricks1')]",
 			"type": "Microsoft.DataFactory/factories/linkedServices",
 			"apiVersion": "2018-06-01",
@@ -1424,6 +1838,86 @@
 						"value": "[parameters('AzureDatabricks1_accessToken')]"
 					},
 					"existingClusterId": "[parameters('AzureDatabricks1_properties_typeProperties_existingClusterId')]"
+				},
+				"connectVia": {
+					"referenceName": "AutoResolveIntegrationRuntime",
+					"type": "IntegrationRuntimeReference"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/integrationRuntimes/AutoResolveIntegrationRuntime')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/AzureDatabricks2')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureDatabricks",
+				"typeProperties": {
+					"domain": "https://adb-3141012479002376.16.azuredatabricks.net",
+					"accessToken": {
+						"type": "SecureString",
+						"value": "[parameters('AzureDatabricks2_accessToken')]"
+					},
+					"newClusterNodeType": "Standard_DS3_v2",
+					"newClusterNumOfWorker": "1",
+					"newClusterVersion": "10.4.x-cpu-ml-scala2.12",
+					"clusterOption": "Fixed",
+					"newClusterInitScripts": []
+				},
+				"connectVia": {
+					"referenceName": "AutoResolveIntegrationRuntime",
+					"type": "IntegrationRuntimeReference"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/integrationRuntimes/AutoResolveIntegrationRuntime')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/AzureDatabricks3')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureDatabricks",
+				"typeProperties": {
+					"domain": "https://adb-3141012479002376.16.azuredatabricks.net",
+					"accessToken": {
+						"type": "SecureString",
+						"value": "[parameters('AzureDatabricks3_accessToken')]"
+					},
+					"newClusterNodeType": "Standard_D32as_v4",
+					"newClusterNumOfWorker": "1",
+					"newClusterVersion": "16.4.x-cpu-ml-photon-scala2.12",
+					"clusterOption": "Fixed",
+					"newClusterInitScripts": []
+				},
+				"connectVia": {
+					"referenceName": "AutoResolveIntegrationRuntime",
+					"type": "IntegrationRuntimeReference"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/integrationRuntimes/AutoResolveIntegrationRuntime')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/AzureDatabricks4')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureDatabricks",
+				"typeProperties": {
+					"domain": "https://adb-3141012479002376.16.azuredatabricks.net",
+					"accessToken": {
+						"type": "SecureString",
+						"value": "[parameters('AzureDatabricks4_accessToken')]"
+					},
+					"existingClusterId": "[parameters('AzureDatabricks4_properties_typeProperties_existingClusterId')]"
 				},
 				"connectVia": {
 					"referenceName": "AutoResolveIntegrationRuntime",
@@ -1563,6 +2057,62 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/LSforSqlServer01')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "SqlServer",
+				"typeProperties": {
+					"server": "[parameters('LSforSqlServer01_properties_typeProperties_server')]",
+					"database": "[parameters('LSforSqlServer01_properties_typeProperties_database')]",
+					"encrypt": "mandatory",
+					"trustServerCertificate": true,
+					"authenticationType": "SQL",
+					"userName": "[parameters('LSforSqlServer01_properties_typeProperties_userName')]",
+					"password": {
+						"type": "SecureString",
+						"value": "[parameters('LSforSqlServer01_password')]"
+					}
+				},
+				"connectVia": {
+					"referenceName": "Ram-SelfHosted-IR",
+					"type": "IntegrationRuntimeReference"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/integrationRuntimes/Ram-SelfHosted-IR')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/LSforSqlServer0711')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "SqlServer",
+				"typeProperties": {
+					"server": "[parameters('LSforSqlServer0711_properties_typeProperties_server')]",
+					"database": "[parameters('LSforSqlServer0711_properties_typeProperties_database')]",
+					"encrypt": "mandatory",
+					"trustServerCertificate": true,
+					"authenticationType": "SQL",
+					"userName": "[parameters('LSforSqlServer0711_properties_typeProperties_userName')]",
+					"password": {
+						"type": "SecureString",
+						"value": "[parameters('LSforSqlServer0711_password')]"
+					}
+				},
+				"connectVia": {
+					"referenceName": "Ram-SelfHosted-IR",
+					"type": "IntegrationRuntimeReference"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/integrationRuntimes/Ram-SelfHosted-IR')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/MySql1')]",
 			"type": "Microsoft.DataFactory/factories/linkedServices",
 			"apiVersion": "2018-06-01",
@@ -1581,6 +2131,34 @@
 						"value": "[parameters('MySql1_password')]"
 					},
 					"driverVersion": "v2"
+				},
+				"connectVia": {
+					"referenceName": "Ram-SelfHosted-IR",
+					"type": "IntegrationRuntimeReference"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/integrationRuntimes/Ram-SelfHosted-IR')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SqlServer1')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "SqlServer",
+				"typeProperties": {
+					"server": "[parameters('SqlServer1_properties_typeProperties_server')]",
+					"database": "[parameters('SqlServer1_properties_typeProperties_database')]",
+					"encrypt": "mandatory",
+					"trustServerCertificate": false,
+					"authenticationType": "Windows",
+					"userName": "[parameters('SqlServer1_properties_typeProperties_userName')]",
+					"password": {
+						"type": "SecureString",
+						"value": "[parameters('SqlServer1_password')]"
+					}
 				},
 				"connectVia": {
 					"referenceName": "Ram-SelfHosted-IR",
@@ -1625,6 +2203,228 @@
 				"typeProperties": {}
 			},
 			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/dataflow1')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "DSforAccountsRawData",
+								"type": "DatasetReference"
+							},
+							"name": "AccountsRawData"
+						},
+						{
+							"dataset": {
+								"referenceName": "DSforCustomersRawData",
+								"type": "DatasetReference"
+							},
+							"name": "CustomersRawData"
+						},
+						{
+							"dataset": {
+								"referenceName": "DSforDatesRawData",
+								"type": "DatasetReference"
+							},
+							"name": "DatesRawData"
+						},
+						{
+							"dataset": {
+								"referenceName": "DSforLocationRawData",
+								"type": "DatasetReference"
+							},
+							"name": "LocationRawData"
+						},
+						{
+							"dataset": {
+								"referenceName": "DSforTransactionsRawData",
+								"type": "DatasetReference"
+							},
+							"name": "TransactionsRawData"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "DSforAccountsSilverData",
+								"type": "DatasetReference"
+							},
+							"name": "sink1"
+						},
+						{
+							"dataset": {
+								"referenceName": "DsforCustomersSilverData",
+								"type": "DatasetReference"
+							},
+							"name": "sink2"
+						},
+						{
+							"dataset": {
+								"referenceName": "DSforDatesSilverData",
+								"type": "DatasetReference"
+							},
+							"name": "sink3"
+						},
+						{
+							"dataset": {
+								"referenceName": "DSforLocationSilverData",
+								"type": "DatasetReference"
+							},
+							"name": "sink4"
+						},
+						{
+							"dataset": {
+								"referenceName": "DSforTransactionsSilverData",
+								"type": "DatasetReference"
+							},
+							"name": "sink5"
+						}
+					],
+					"transformations": [
+						{
+							"name": "RemovingNullData01"
+						},
+						{
+							"name": "RemovingNullData02"
+						},
+						{
+							"name": "RemovingNullData03"
+						},
+						{
+							"name": "RemovingNullData04"
+						},
+						{
+							"name": "RemovingNullData05"
+						},
+						{
+							"name": "derivedColumn1"
+						}
+					],
+					"scriptLines": [
+						"source(output(",
+						"          account_id as string,",
+						"          customer_id as string,",
+						"          account_type as string,",
+						"          branch_id as string,",
+						"          balance as string,",
+						"          currency as string,",
+						"          opening_date as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     ignoreNoFilesFound: false) ~> AccountsRawData",
+						"source(output(",
+						"          customer_id as string,",
+						"          first_name as string,",
+						"          last_name as string,",
+						"          date_of_birth as string,",
+						"          email as string,",
+						"          zip_code as string,",
+						"          gender as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     ignoreNoFilesFound: false) ~> CustomersRawData",
+						"source(output(",
+						"          date_key as string,",
+						"          full_date as string,",
+						"          day_of_week as string,",
+						"          month_name as string,",
+						"          year as string,",
+						"          is_weekend as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     ignoreNoFilesFound: false) ~> DatesRawData",
+						"source(output(",
+						"          location_id as string,",
+						"          branch_id as string,",
+						"          branch_name as string,",
+						"          city as string,",
+						"          region as string,",
+						"          country as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     ignoreNoFilesFound: false) ~> LocationRawData",
+						"source(output(",
+						"          transaction_id as string,",
+						"          account_id as string,",
+						"          customer_id as string,",
+						"          transaction_date as string,",
+						"          amount as string,",
+						"          transaction_type as string,",
+						"          merchant as string,",
+						"          location_id as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     ignoreNoFilesFound: false) ~> TransactionsRawData",
+						"AccountsRawData filter(!isNull(account_id) && !isNull(customer_id) && !isNull(account_type) && !isNull(branch_id) && !isNull(balance) && !isNull(currency) && !isNull(opening_date)) ~> RemovingNullData01",
+						"CustomersRawData filter(!isNull(customer_id) && !isNull(first_name) && !isNull(last_name) && !isNull(date_of_birth) && !isNull(email) && !isNull(zip_code) && !isNull(gender)) ~> RemovingNullData02",
+						"DatesRawData filter(!isNull(date_key) && !isNull(full_date) && !isNull(day_of_week) && !isNull(month_name) && !isNull(year) && !isNull(is_weekend)) ~> RemovingNullData03",
+						"LocationRawData filter(!isNull(location_id) && !isNull(branch_id) && !isNull(branch_name) && !isNull(city) && !isNull(region) && !isNull(country)) ~> RemovingNullData04",
+						"TransactionsRawData filter(!isNull(transaction_id) && !isNull(account_id) && !isNull(customer_id) && \r",
+						"!isNull(transaction_date) && !isNull(amount) && !isNull(transaction_type) &&\r",
+						"!isNull(merchant) && !isNull(location_id)) ~> RemovingNullData05",
+						"RemovingNullData01 derive(account_type = initCap(account_type),",
+						"          branch_id = iif(branch_id == \"NULL\", \"N/A\", branch_id),",
+						"          balance = toDouble(replace('\"',''))) ~> derivedColumn1",
+						"derivedColumn1 sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     umask: 0022,",
+						"     preCommands: [],",
+						"     postCommands: [],",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true) ~> sink1",
+						"RemovingNullData02 sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     umask: 0022,",
+						"     preCommands: [],",
+						"     postCommands: [],",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true) ~> sink2",
+						"RemovingNullData03 sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     umask: 0022,",
+						"     preCommands: [],",
+						"     postCommands: [],",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true) ~> sink3",
+						"RemovingNullData04 sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     umask: 0022,",
+						"     preCommands: [],",
+						"     postCommands: [],",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true) ~> sink4",
+						"RemovingNullData05 sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     umask: 0022,",
+						"     preCommands: [],",
+						"     postCommands: [],",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true) ~> sink5"
+					]
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/DSforAccountsRawData')]",
+				"[concat(variables('factoryId'), '/datasets/DSforCustomersRawData')]",
+				"[concat(variables('factoryId'), '/datasets/DSforDatesRawData')]",
+				"[concat(variables('factoryId'), '/datasets/DSforLocationRawData')]",
+				"[concat(variables('factoryId'), '/datasets/DSforTransactionsRawData')]",
+				"[concat(variables('factoryId'), '/datasets/DSforAccountsSilverData')]",
+				"[concat(variables('factoryId'), '/datasets/DsforCustomersSilverData')]",
+				"[concat(variables('factoryId'), '/datasets/DSforDatesSilverData')]",
+				"[concat(variables('factoryId'), '/datasets/DSforLocationSilverData')]",
+				"[concat(variables('factoryId'), '/datasets/DSforTransactionsSilverData')]"
+			]
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/default')]",

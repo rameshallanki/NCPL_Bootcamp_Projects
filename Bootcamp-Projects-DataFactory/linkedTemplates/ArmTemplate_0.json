@@ -7,13 +7,41 @@
 			"metadata": "Data Factory name",
 			"defaultValue": "Bootcamp-Projects-DataFactory"
 		},
+		"LSforSqlServer01_password": {
+			"type": "secureString",
+			"metadata": "Secure string for 'password' of 'LSforSqlServer01'"
+		},
+		"LSforSqlServer0711_password": {
+			"type": "secureString",
+			"metadata": "Secure string for 'password' of 'LSforSqlServer0711'"
+		},
 		"MySql1_password": {
 			"type": "secureString",
 			"metadata": "Secure string for 'password' of 'MySql1'"
 		},
+		"SqlServer1_password": {
+			"type": "secureString",
+			"metadata": "Secure string for 'password' of 'SqlServer1'"
+		},
+		"AzureDataLakeStorage1_accountKey": {
+			"type": "secureString",
+			"metadata": "Secure string for 'accountKey' of 'AzureDataLakeStorage1'"
+		},
 		"AzureDatabricks1_accessToken": {
 			"type": "secureString",
 			"metadata": "Secure string for 'accessToken' of 'AzureDatabricks1'"
+		},
+		"AzureDatabricks2_accessToken": {
+			"type": "secureString",
+			"metadata": "Secure string for 'accessToken' of 'AzureDatabricks2'"
+		},
+		"AzureDatabricks3_accessToken": {
+			"type": "secureString",
+			"metadata": "Secure string for 'accessToken' of 'AzureDatabricks3'"
+		},
+		"AzureDatabricks4_accessToken": {
+			"type": "secureString",
+			"metadata": "Secure string for 'accessToken' of 'AzureDatabricks4'"
 		},
 		"DSforPatientGoldDataAzureSqlDB_password": {
 			"type": "secureString",
@@ -31,6 +59,30 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'password' of 'LSforSalesDataAzureSqlDatabase101'"
 		},
+		"LSforSqlServer01_properties_typeProperties_server": {
+			"type": "string",
+			"defaultValue": "RAMESH_ALLANKI\\SQLEXPRESS"
+		},
+		"LSforSqlServer01_properties_typeProperties_database": {
+			"type": "string",
+			"defaultValue": "BootCamp03-DB"
+		},
+		"LSforSqlServer01_properties_typeProperties_userName": {
+			"type": "string",
+			"defaultValue": "Bootcamp03"
+		},
+		"LSforSqlServer0711_properties_typeProperties_server": {
+			"type": "string",
+			"defaultValue": "RAMESH_ALLANKI\\SQLEXPRESS"
+		},
+		"LSforSqlServer0711_properties_typeProperties_database": {
+			"type": "string",
+			"defaultValue": "BootCamp03-DB"
+		},
+		"LSforSqlServer0711_properties_typeProperties_userName": {
+			"type": "string",
+			"defaultValue": "Bootcamp03"
+		},
 		"MySql1_properties_typeProperties_server": {
 			"type": "string",
 			"defaultValue": "Ramesh_Allanki"
@@ -43,7 +95,27 @@
 			"type": "string",
 			"defaultValue": "root"
 		},
+		"SqlServer1_properties_typeProperties_server": {
+			"type": "string",
+			"defaultValue": "RAMESH_ALLANKI\\SQLEXPRESS"
+		},
+		"SqlServer1_properties_typeProperties_database": {
+			"type": "string",
+			"defaultValue": "BootCamp03-DB"
+		},
+		"SqlServer1_properties_typeProperties_userName": {
+			"type": "string",
+			"defaultValue": "Ramesh_Allanki\\allan"
+		},
+		"AzureDataLakeStorage1_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://storageforbootcamp.dfs.core.windows.net/"
+		},
 		"AzureDatabricks1_properties_typeProperties_existingClusterId": {
+			"type": "string",
+			"defaultValue": "1022-165503-ewpjnkhz"
+		},
+		"AzureDatabricks4_properties_typeProperties_existingClusterId": {
 			"type": "string",
 			"defaultValue": "1022-165503-ewpjnkhz"
 		},
@@ -114,6 +186,62 @@
 			"dependsOn": []
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/LSforSqlServer01')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "SqlServer",
+				"typeProperties": {
+					"server": "[parameters('LSforSqlServer01_properties_typeProperties_server')]",
+					"database": "[parameters('LSforSqlServer01_properties_typeProperties_database')]",
+					"encrypt": "mandatory",
+					"trustServerCertificate": true,
+					"authenticationType": "SQL",
+					"userName": "[parameters('LSforSqlServer01_properties_typeProperties_userName')]",
+					"password": {
+						"type": "SecureString",
+						"value": "[parameters('LSforSqlServer01_password')]"
+					}
+				},
+				"connectVia": {
+					"referenceName": "Ram-SelfHosted-IR",
+					"type": "IntegrationRuntimeReference"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/integrationRuntimes/Ram-SelfHosted-IR')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/LSforSqlServer0711')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "SqlServer",
+				"typeProperties": {
+					"server": "[parameters('LSforSqlServer0711_properties_typeProperties_server')]",
+					"database": "[parameters('LSforSqlServer0711_properties_typeProperties_database')]",
+					"encrypt": "mandatory",
+					"trustServerCertificate": true,
+					"authenticationType": "SQL",
+					"userName": "[parameters('LSforSqlServer0711_properties_typeProperties_userName')]",
+					"password": {
+						"type": "SecureString",
+						"value": "[parameters('LSforSqlServer0711_password')]"
+					}
+				},
+				"connectVia": {
+					"referenceName": "Ram-SelfHosted-IR",
+					"type": "IntegrationRuntimeReference"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/integrationRuntimes/Ram-SelfHosted-IR')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/MySql1')]",
 			"type": "Microsoft.DataFactory/factories/linkedServices",
 			"apiVersion": "2018-06-01",
@@ -132,6 +260,34 @@
 						"value": "[parameters('MySql1_password')]"
 					},
 					"driverVersion": "v2"
+				},
+				"connectVia": {
+					"referenceName": "Ram-SelfHosted-IR",
+					"type": "IntegrationRuntimeReference"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/integrationRuntimes/Ram-SelfHosted-IR')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SqlServer1')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "SqlServer",
+				"typeProperties": {
+					"server": "[parameters('SqlServer1_properties_typeProperties_server')]",
+					"database": "[parameters('SqlServer1_properties_typeProperties_database')]",
+					"encrypt": "mandatory",
+					"trustServerCertificate": false,
+					"authenticationType": "Windows",
+					"userName": "[parameters('SqlServer1_properties_typeProperties_userName')]",
+					"password": {
+						"type": "SecureString",
+						"value": "[parameters('SqlServer1_password')]"
+					}
 				},
 				"connectVia": {
 					"referenceName": "Ram-SelfHosted-IR",
@@ -186,6 +342,80 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/DSforSqlServerTable0911')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LSforSqlServer0711",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [
+					{
+						"name": "account_id",
+						"type": "nvarchar"
+					},
+					{
+						"name": "customer_id",
+						"type": "nvarchar"
+					},
+					{
+						"name": "account_type",
+						"type": "nvarchar"
+					},
+					{
+						"name": "branch_id",
+						"type": "nvarchar"
+					},
+					{
+						"name": "balance",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "currency",
+						"type": "nvarchar"
+					},
+					{
+						"name": "opening_date",
+						"type": "nvarchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "Accounts-RawData"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/LSforSqlServer0711')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/AzureDataLakeStorage1')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureBlobFS",
+				"typeProperties": {
+					"url": "[parameters('AzureDataLakeStorage1_properties_typeProperties_url')]",
+					"accountKey": {
+						"type": "SecureString",
+						"value": "[parameters('AzureDataLakeStorage1_accountKey')]"
+					}
+				},
+				"connectVia": {
+					"referenceName": "AutoResolveIntegrationRuntime",
+					"type": "IntegrationRuntimeReference"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/integrationRuntimes/AutoResolveIntegrationRuntime')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/AzureDatabricks1')]",
 			"type": "Microsoft.DataFactory/factories/linkedServices",
 			"apiVersion": "2018-06-01",
@@ -199,6 +429,86 @@
 						"value": "[parameters('AzureDatabricks1_accessToken')]"
 					},
 					"existingClusterId": "[parameters('AzureDatabricks1_properties_typeProperties_existingClusterId')]"
+				},
+				"connectVia": {
+					"referenceName": "AutoResolveIntegrationRuntime",
+					"type": "IntegrationRuntimeReference"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/integrationRuntimes/AutoResolveIntegrationRuntime')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/AzureDatabricks2')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureDatabricks",
+				"typeProperties": {
+					"domain": "https://adb-3141012479002376.16.azuredatabricks.net",
+					"accessToken": {
+						"type": "SecureString",
+						"value": "[parameters('AzureDatabricks2_accessToken')]"
+					},
+					"newClusterNodeType": "Standard_DS3_v2",
+					"newClusterNumOfWorker": "1",
+					"newClusterVersion": "10.4.x-cpu-ml-scala2.12",
+					"clusterOption": "Fixed",
+					"newClusterInitScripts": []
+				},
+				"connectVia": {
+					"referenceName": "AutoResolveIntegrationRuntime",
+					"type": "IntegrationRuntimeReference"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/integrationRuntimes/AutoResolveIntegrationRuntime')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/AzureDatabricks3')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureDatabricks",
+				"typeProperties": {
+					"domain": "https://adb-3141012479002376.16.azuredatabricks.net",
+					"accessToken": {
+						"type": "SecureString",
+						"value": "[parameters('AzureDatabricks3_accessToken')]"
+					},
+					"newClusterNodeType": "Standard_D32as_v4",
+					"newClusterNumOfWorker": "1",
+					"newClusterVersion": "16.4.x-cpu-ml-photon-scala2.12",
+					"clusterOption": "Fixed",
+					"newClusterInitScripts": []
+				},
+				"connectVia": {
+					"referenceName": "AutoResolveIntegrationRuntime",
+					"type": "IntegrationRuntimeReference"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/integrationRuntimes/AutoResolveIntegrationRuntime')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/AzureDatabricks4')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureDatabricks",
+				"typeProperties": {
+					"domain": "https://adb-3141012479002376.16.azuredatabricks.net",
+					"accessToken": {
+						"type": "SecureString",
+						"value": "[parameters('AzureDatabricks4_accessToken')]"
+					},
+					"existingClusterId": "[parameters('AzureDatabricks4_properties_typeProperties_existingClusterId')]"
 				},
 				"connectVia": {
 					"referenceName": "AutoResolveIntegrationRuntime",
@@ -338,25 +648,7 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/DSforAPISourceSalesData')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "LSforAPISalesData",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "RestResource",
-				"typeProperties": {},
-				"schema": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/LSforAPISalesData')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/DSforCusotmerCSVData02')]",
+			"name": "[concat(parameters('factoryName'), '/DSforADLSRawData')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
 			"properties": {
@@ -369,63 +661,8 @@
 				"typeProperties": {
 					"location": {
 						"type": "AzureBlobFSLocation",
-						"fileName": "customers_sample.csv",
-						"folderPath": "Customer-CSVData/Input-CustomerCSVData",
-						"fileSystem": "bootcamp01-container"
-					},
-					"columnDelimiter": ",",
-					"escapeChar": "\\",
-					"firstRowAsHeader": true,
-					"quoteChar": "\""
-				},
-				"schema": [
-					{
-						"name": "CustomerID",
-						"type": "String"
-					},
-					{
-						"name": "CustomerName",
-						"type": "String"
-					},
-					{
-						"name": "Email",
-						"type": "String"
-					},
-					{
-						"name": "Phone",
-						"type": "String"
-					},
-					{
-						"name": "City",
-						"type": "String"
-					},
-					{
-						"name": "Country",
-						"type": "String"
-					}
-				]
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/LSforADLS01')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/DSforOnPremProductsData')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "LSforADLS01",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "DelimitedText",
-				"typeProperties": {
-					"location": {
-						"type": "AzureBlobFSLocation",
-						"fileName": "Products_RawData.csv",
-						"folderPath": "Products-OnPremData",
-						"fileSystem": "bootcamp01-container"
+						"folderPath": "RawData-Layer",
+						"fileSystem": "bootcamp03-container"
 					},
 					"columnDelimiter": ",",
 					"escapeChar": "\\",
@@ -436,533 +673,6 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/linkedServices/LSforADLS01')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/DSforPatientsGoldAzureSqlTable1')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "DSforPatientGoldDataAzureSqlDB",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "AzureSqlTable",
-				"schema": [],
-				"typeProperties": {
-					"schema": "dbo",
-					"table": "Patients_Final_Gold_Data"
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/DSforPatientGoldDataAzureSqlDB')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/DSforPatients_Gold_Data_Parquet1')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "LSforADLS01",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "Parquet",
-				"typeProperties": {
-					"location": {
-						"type": "AzureBlobFSLocation",
-						"fileName": "part-00000-d84eea2f-6237-49e8-872a-9511278cf2a0-c000.snappy.parquet",
-						"folderPath": "Gold-Layer/Patients_Final-Gold_Data",
-						"fileSystem": "bootcamp02-container"
-					},
-					"compressionCodec": "snappy"
-				},
-				"schema": [
-					{
-						"name": "Patient_ID",
-						"type": "UTF8"
-					},
-					{
-						"name": "Patient_Name",
-						"type": "UTF8"
-					},
-					{
-						"name": "Age",
-						"type": "UTF8"
-					},
-					{
-						"name": "Gender",
-						"type": "UTF8"
-					},
-					{
-						"name": "Age_Category",
-						"type": "UTF8"
-					},
-					{
-						"name": "Blood_Type",
-						"type": "UTF8"
-					},
-					{
-						"name": "Reference_Number",
-						"type": "UTF8"
-					},
-					{
-						"name": "Admission_ID",
-						"type": "UTF8"
-					},
-					{
-						"name": "Medical_ID",
-						"type": "UTF8"
-					},
-					{
-						"name": "Insurance_ID",
-						"type": "UTF8"
-					},
-					{
-						"name": "Medical_Condition",
-						"type": "UTF8"
-					},
-					{
-						"name": "Doctor",
-						"type": "UTF8"
-					},
-					{
-						"name": "Hospital",
-						"type": "UTF8"
-					},
-					{
-						"name": "Medication",
-						"type": "UTF8"
-					},
-					{
-						"name": "Test_Results",
-						"type": "UTF8"
-					},
-					{
-						"name": "Date_of_Admission",
-						"type": "UTF8"
-					},
-					{
-						"name": "Discharge_Date",
-						"type": "UTF8"
-					},
-					{
-						"name": "Admission_Type",
-						"type": "UTF8"
-					},
-					{
-						"name": "Room_Number",
-						"type": "UTF8"
-					},
-					{
-						"name": "Length_Of_Stay",
-						"type": "UTF8"
-					},
-					{
-						"name": "Insurance_Status",
-						"type": "UTF8"
-					},
-					{
-						"name": "Insurance_Provider",
-						"type": "UTF8"
-					},
-					{
-						"name": "Billing_Amount",
-						"type": "UTF8"
-					},
-					{
-						"name": "Billing_Category",
-						"type": "UTF8"
-					},
-					{
-						"name": "isEligibleForClaim",
-						"type": "UTF8"
-					},
-					{
-						"name": "Risk_Score",
-						"type": "UTF8"
-					},
-					{
-						"name": "Risk_Category",
-						"type": "UTF8"
-					},
-					{
-						"name": "Insurance_Claim_Probability",
-						"type": "UTF8"
-					},
-					{
-						"name": "Effective_Date",
-						"type": "UTF8"
-					},
-					{
-						"name": "End_Date",
-						"type": "UTF8"
-					},
-					{
-						"name": "Is_Current",
-						"type": "BOOLEAN"
-					},
-					{
-						"name": "New_Medical_Condition",
-						"type": "UTF8"
-					},
-					{
-						"name": "New_Doctor",
-						"type": "UTF8"
-					},
-					{
-						"name": "New_Billing_Amount",
-						"type": "UTF8"
-					}
-				]
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/LSforADLS01')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/DSforSinkAPISalesData')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "LSforADLS01",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "DelimitedText",
-				"typeProperties": {
-					"location": {
-						"type": "AzureBlobFSLocation",
-						"fileName": "Raw_API_SalesData.csv",
-						"folderPath": "Raw-API-SalesData",
-						"fileSystem": "bootcamp01-container"
-					},
-					"columnDelimiter": ",",
-					"escapeChar": "\\",
-					"firstRowAsHeader": true,
-					"quoteChar": "\""
-				},
-				"schema": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/LSforADLS01')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/DSforSinkCustomerCSV')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "LSforADLS01",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "DelimitedText",
-				"typeProperties": {
-					"location": {
-						"type": "AzureBlobFSLocation",
-						"fileName": "Customer_RawData.csv",
-						"folderPath": "Customer-CSVData/Output-CustomerCSVData",
-						"fileSystem": "bootcamp01-container"
-					},
-					"columnDelimiter": ",",
-					"escapeChar": "\\",
-					"firstRowAsHeader": true,
-					"quoteChar": "\""
-				},
-				"schema": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/LSforADLS01')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/Customer_CSV-Pipeline02')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "Copy_Customer_CSV_Data_to_ADLS",
-						"type": "Copy",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "DelimitedTextSource",
-								"storeSettings": {
-									"type": "AzureBlobFSReadSettings",
-									"recursive": true,
-									"enablePartitionDiscovery": false
-								},
-								"formatSettings": {
-									"type": "DelimitedTextReadSettings"
-								}
-							},
-							"sink": {
-								"type": "DelimitedTextSink",
-								"storeSettings": {
-									"type": "AzureBlobFSWriteSettings"
-								},
-								"formatSettings": {
-									"type": "DelimitedTextWriteSettings",
-									"quoteAllText": true,
-									"fileExtension": ".txt"
-								}
-							},
-							"enableStaging": false,
-							"translator": {
-								"type": "TabularTranslator",
-								"mappings": [
-									{
-										"source": {
-											"name": "CustomerID",
-											"type": "Int64",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "CustomerID",
-											"type": "String",
-											"physicalType": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "CustomerName",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "CustomerName",
-											"type": "String",
-											"physicalType": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "Email",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "Email",
-											"type": "String",
-											"physicalType": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "Phone",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "Phone",
-											"type": "String",
-											"physicalType": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "City",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "City",
-											"type": "String",
-											"physicalType": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "Country",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "Country",
-											"type": "String",
-											"physicalType": "String"
-										}
-									}
-								],
-								"typeConversion": true,
-								"typeConversionSettings": {
-									"allowDataTruncation": true,
-									"treatBooleanAsNumber": false
-								}
-							}
-						},
-						"inputs": [
-							{
-								"referenceName": "DSforCusotmerCSVData02",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "DSforSinkCustomerCSV",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						]
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {}
-				},
-				"annotations": [],
-				"lastPublishTime": "2025-10-13T18:53:28Z"
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/DSforCusotmerCSVData02')]",
-				"[concat(variables('factoryId'), '/datasets/DSforSinkCustomerCSV')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/Products_On_Prem_pipeline')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "Copy_OnPrem_Data",
-						"type": "Copy",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "MySqlSource",
-								"query": "SELECT * FROM bootcamp_project.products_sample;"
-							},
-							"sink": {
-								"type": "DelimitedTextSink",
-								"storeSettings": {
-									"type": "AzureBlobFSWriteSettings"
-								},
-								"formatSettings": {
-									"type": "DelimitedTextWriteSettings",
-									"quoteAllText": true,
-									"fileExtension": ".txt"
-								}
-							},
-							"enableStaging": false,
-							"translator": {
-								"type": "TabularTranslator",
-								"mappings": [
-									{
-										"source": {
-											"name": "ProductID",
-											"type": "Double",
-											"physicalType": "Double"
-										},
-										"sink": {
-											"name": "ProductID",
-											"type": "String",
-											"physicalType": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "ProductName",
-											"type": "String",
-											"physicalType": "Text"
-										},
-										"sink": {
-											"name": "ProductName",
-											"type": "String",
-											"physicalType": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "Category",
-											"type": "String",
-											"physicalType": "Text"
-										},
-										"sink": {
-											"name": "Category",
-											"type": "String",
-											"physicalType": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "Price",
-											"type": "Double",
-											"physicalType": "Double"
-										},
-										"sink": {
-											"name": "Price",
-											"type": "String",
-											"physicalType": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "StockQuantity",
-											"type": "String",
-											"physicalType": "Text"
-										},
-										"sink": {
-											"name": "StockQuantity",
-											"type": "String",
-											"physicalType": "String"
-										}
-									}
-								],
-								"typeConversion": true,
-								"typeConversionSettings": {
-									"allowDataTruncation": true,
-									"treatBooleanAsNumber": false
-								}
-							}
-						},
-						"inputs": [
-							{
-								"referenceName": "DSforMySqlProductsData",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "DSforOnPremProductsData",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						]
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {}
-				},
-				"annotations": [],
-				"lastPublishTime": "2025-10-13T18:53:28Z"
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/DSforMySqlProductsData')]",
-				"[concat(variables('factoryId'), '/datasets/DSforOnPremProductsData')]"
 			]
 		}
 	]

@@ -1,0 +1,551 @@
+{
+	"$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"type": "string",
+			"metadata": "Data Factory name",
+			"defaultValue": "Bootcamp-Projects-DataFactory"
+		}
+	},
+	"variables": {
+		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
+	},
+	"resources": [
+		{
+			"name": "[concat(parameters('factoryName'), '/SalesData_API_Pipeline01')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "SalesData-API-Web",
+						"type": "WebActivity",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"method": "GET",
+							"headers": {},
+							"url": "https://530b370d-691a-4c97-b0fa-c16fec8a4ff2.mock.pstmn.io/Sales_Data01",
+							"connectVia": {
+								"referenceName": "AutoResolveIntegrationRuntime",
+								"type": "IntegrationRuntimeReference"
+							}
+						}
+					},
+					{
+						"name": "Copy_API_SalesData",
+						"type": "Copy",
+						"dependsOn": [
+							{
+								"activity": "SalesData-API-Web",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "RestSource",
+								"httpRequestTimeout": "00:01:40",
+								"requestInterval": "00.00:00:00.010",
+								"requestMethod": "GET",
+								"paginationRules": {
+									"supportRFC5988": "true"
+								}
+							},
+							"sink": {
+								"type": "DelimitedTextSink",
+								"storeSettings": {
+									"type": "AzureBlobFSWriteSettings"
+								},
+								"formatSettings": {
+									"type": "DelimitedTextWriteSettings",
+									"quoteAllText": true,
+									"fileExtension": ".txt"
+								}
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"path": "$['SaleID']"
+										},
+										"sink": {
+											"name": "SaleID",
+											"type": "Int64"
+										}
+									},
+									{
+										"source": {
+											"path": "$['CustomerID']"
+										},
+										"sink": {
+											"name": "CustomerID",
+											"type": "Int64"
+										}
+									},
+									{
+										"source": {
+											"path": "$['ProductID']"
+										},
+										"sink": {
+											"name": "ProductID",
+											"type": "Int64"
+										}
+									},
+									{
+										"source": {
+											"path": "$['SaleDate']"
+										},
+										"sink": {
+											"name": "SaleDate",
+											"type": "Date"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Quantity']"
+										},
+										"sink": {
+											"name": "Quantity",
+											"type": "Double"
+										}
+									},
+									{
+										"source": {
+											"path": "$['TotalAmount']"
+										},
+										"sink": {
+											"name": "TotalAmount",
+											"type": "Double"
+										}
+									}
+								]
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "DSforAPISourceSalesData",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "DSforSinkAPISalesData",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"annotations": [],
+				"lastPublishTime": "2025-10-13T18:53:29Z"
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/pipeline1')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Lookup1",
+						"description": "Copying list of Tables from Bootcamp03 DB",
+						"type": "Lookup",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "SqlServerSource",
+								"queryTimeout": "02:00:00",
+								"partitionOption": "None"
+							},
+							"dataset": {
+								"referenceName": "DSforSqlServerTable0911",
+								"type": "DatasetReference",
+								"parameters": {}
+							},
+							"firstRowOnly": false
+						}
+					},
+					{
+						"name": "ForEach1",
+						"type": "ForEach",
+						"dependsOn": [
+							{
+								"activity": "Lookup1",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"items": {
+								"value": "@activity('Lookup1').output.value",
+								"type": "Expression"
+							},
+							"activities": [
+								{
+									"name": "Copy data1",
+									"description": "Copying the List of Tables from Lookup Activity",
+									"type": "Copy",
+									"dependsOn": [],
+									"policy": {
+										"timeout": "0.12:00:00",
+										"retry": 0,
+										"retryIntervalInSeconds": 30,
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"source": {
+											"type": "SqlServerSource",
+											"queryTimeout": "02:00:00",
+											"partitionOption": "None"
+										},
+										"sink": {
+											"type": "DelimitedTextSink",
+											"storeSettings": {
+												"type": "AzureBlobFSWriteSettings"
+											},
+											"formatSettings": {
+												"type": "DelimitedTextWriteSettings",
+												"quoteAllText": true,
+												"fileExtension": ".txt"
+											}
+										},
+										"enableStaging": false,
+										"translator": {
+											"type": "TabularTranslator",
+											"typeConversion": true,
+											"typeConversionSettings": {
+												"allowDataTruncation": true,
+												"treatBooleanAsNumber": false
+											}
+										}
+									},
+									"inputs": [
+										{
+											"referenceName": "DSforSqlServerTable0911",
+											"type": "DatasetReference",
+											"parameters": {}
+										}
+									],
+									"outputs": [
+										{
+											"referenceName": "DSforADLSRawData",
+											"type": "DatasetReference",
+											"parameters": {}
+										}
+									]
+								}
+							]
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"annotations": []
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/dataflow1')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "DSforAccountsRawData",
+								"type": "DatasetReference"
+							},
+							"name": "AccountsRawData"
+						},
+						{
+							"dataset": {
+								"referenceName": "DSforCustomersRawData",
+								"type": "DatasetReference"
+							},
+							"name": "CustomersRawData"
+						},
+						{
+							"dataset": {
+								"referenceName": "DSforDatesRawData",
+								"type": "DatasetReference"
+							},
+							"name": "DatesRawData"
+						},
+						{
+							"dataset": {
+								"referenceName": "DSforLocationRawData",
+								"type": "DatasetReference"
+							},
+							"name": "LocationRawData"
+						},
+						{
+							"dataset": {
+								"referenceName": "DSforTransactionsRawData",
+								"type": "DatasetReference"
+							},
+							"name": "TransactionsRawData"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "DSforAccountsSilverData",
+								"type": "DatasetReference"
+							},
+							"name": "sink1"
+						},
+						{
+							"dataset": {
+								"referenceName": "DsforCustomersSilverData",
+								"type": "DatasetReference"
+							},
+							"name": "sink2"
+						},
+						{
+							"dataset": {
+								"referenceName": "DSforDatesSilverData",
+								"type": "DatasetReference"
+							},
+							"name": "sink3"
+						},
+						{
+							"dataset": {
+								"referenceName": "DSforLocationSilverData",
+								"type": "DatasetReference"
+							},
+							"name": "sink4"
+						},
+						{
+							"dataset": {
+								"referenceName": "DSforTransactionsSilverData",
+								"type": "DatasetReference"
+							},
+							"name": "sink5"
+						}
+					],
+					"transformations": [
+						{
+							"name": "RemovingNullData01"
+						},
+						{
+							"name": "RemovingNullData02"
+						},
+						{
+							"name": "RemovingNullData03"
+						},
+						{
+							"name": "RemovingNullData04"
+						},
+						{
+							"name": "RemovingNullData05"
+						},
+						{
+							"name": "derivedColumn1"
+						}
+					],
+					"scriptLines": [
+						"source(output(",
+						"          account_id as string,",
+						"          customer_id as string,",
+						"          account_type as string,",
+						"          branch_id as string,",
+						"          balance as string,",
+						"          currency as string,",
+						"          opening_date as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     ignoreNoFilesFound: false) ~> AccountsRawData",
+						"source(output(",
+						"          customer_id as string,",
+						"          first_name as string,",
+						"          last_name as string,",
+						"          date_of_birth as string,",
+						"          email as string,",
+						"          zip_code as string,",
+						"          gender as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     ignoreNoFilesFound: false) ~> CustomersRawData",
+						"source(output(",
+						"          date_key as string,",
+						"          full_date as string,",
+						"          day_of_week as string,",
+						"          month_name as string,",
+						"          year as string,",
+						"          is_weekend as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     ignoreNoFilesFound: false) ~> DatesRawData",
+						"source(output(",
+						"          location_id as string,",
+						"          branch_id as string,",
+						"          branch_name as string,",
+						"          city as string,",
+						"          region as string,",
+						"          country as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     ignoreNoFilesFound: false) ~> LocationRawData",
+						"source(output(",
+						"          transaction_id as string,",
+						"          account_id as string,",
+						"          customer_id as string,",
+						"          transaction_date as string,",
+						"          amount as string,",
+						"          transaction_type as string,",
+						"          merchant as string,",
+						"          location_id as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     ignoreNoFilesFound: false) ~> TransactionsRawData",
+						"AccountsRawData filter(!isNull(account_id) && !isNull(customer_id) && !isNull(account_type) && !isNull(branch_id) && !isNull(balance) && !isNull(currency) && !isNull(opening_date)) ~> RemovingNullData01",
+						"CustomersRawData filter(!isNull(customer_id) && !isNull(first_name) && !isNull(last_name) && !isNull(date_of_birth) && !isNull(email) && !isNull(zip_code) && !isNull(gender)) ~> RemovingNullData02",
+						"DatesRawData filter(!isNull(date_key) && !isNull(full_date) && !isNull(day_of_week) && !isNull(month_name) && !isNull(year) && !isNull(is_weekend)) ~> RemovingNullData03",
+						"LocationRawData filter(!isNull(location_id) && !isNull(branch_id) && !isNull(branch_name) && !isNull(city) && !isNull(region) && !isNull(country)) ~> RemovingNullData04",
+						"TransactionsRawData filter(!isNull(transaction_id) && !isNull(account_id) && !isNull(customer_id) && \r",
+						"!isNull(transaction_date) && !isNull(amount) && !isNull(transaction_type) &&\r",
+						"!isNull(merchant) && !isNull(location_id)) ~> RemovingNullData05",
+						"RemovingNullData01 derive(account_type = initCap(account_type),",
+						"          branch_id = iif(branch_id == \"NULL\", \"N/A\", branch_id),",
+						"          balance = toDouble(replace('\"',''))) ~> derivedColumn1",
+						"derivedColumn1 sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     umask: 0022,",
+						"     preCommands: [],",
+						"     postCommands: [],",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true) ~> sink1",
+						"RemovingNullData02 sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     umask: 0022,",
+						"     preCommands: [],",
+						"     postCommands: [],",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true) ~> sink2",
+						"RemovingNullData03 sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     umask: 0022,",
+						"     preCommands: [],",
+						"     postCommands: [],",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true) ~> sink3",
+						"RemovingNullData04 sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     umask: 0022,",
+						"     preCommands: [],",
+						"     postCommands: [],",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true) ~> sink4",
+						"RemovingNullData05 sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     umask: 0022,",
+						"     preCommands: [],",
+						"     postCommands: [],",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true) ~> sink5"
+					]
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/pipeline2')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Data flow1",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "dataflow1",
+								"type": "DataFlowReference",
+								"parameters": {},
+								"datasetParameters": {
+									"AccountsRawData": {},
+									"CustomersRawData": {},
+									"DatesRawData": {},
+									"LocationRawData": {},
+									"TransactionsRawData": {},
+									"sink1": {},
+									"sink2": {},
+									"sink3": {},
+									"sink4": {},
+									"sink5": {}
+								}
+							},
+							"staging": {},
+							"compute": {
+								"coreCount": 8,
+								"computeType": "General"
+							},
+							"traceLevel": "Fine"
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/dataflows/dataflow1')]"
+			]
+		}
+	]
+}
