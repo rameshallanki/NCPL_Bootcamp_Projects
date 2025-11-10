@@ -1,0 +1,46 @@
+{
+	"name": "DSforSqlServerTable0911",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LSforSqlServer0711",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "SqlServerTable",
+		"schema": [
+			{
+				"name": "account_id",
+				"type": "nvarchar"
+			},
+			{
+				"name": "customer_id",
+				"type": "nvarchar"
+			},
+			{
+				"name": "account_type",
+				"type": "nvarchar"
+			},
+			{
+				"name": "branch_id",
+				"type": "nvarchar"
+			},
+			{
+				"name": "balance",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "currency",
+				"type": "nvarchar"
+			},
+			{
+				"name": "opening_date",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "Accounts-RawData"
+		}
+	}
+}
