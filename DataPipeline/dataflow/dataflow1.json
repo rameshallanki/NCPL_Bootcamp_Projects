@@ -1,0 +1,210 @@
+{
+	"name": "dataflow1",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "DSforAccountsRawData",
+						"type": "DatasetReference"
+					},
+					"name": "AccountsRawData"
+				},
+				{
+					"dataset": {
+						"referenceName": "DSforCustomersRawData",
+						"type": "DatasetReference"
+					},
+					"name": "CustomersRawData"
+				},
+				{
+					"dataset": {
+						"referenceName": "DSforDatesRawData",
+						"type": "DatasetReference"
+					},
+					"name": "DatesRawData"
+				},
+				{
+					"dataset": {
+						"referenceName": "DSforLocationRawData",
+						"type": "DatasetReference"
+					},
+					"name": "LocationRawData"
+				},
+				{
+					"dataset": {
+						"referenceName": "DSforTransactionsRawData",
+						"type": "DatasetReference"
+					},
+					"name": "TransactionsRawData"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DSforAccountsSilverData",
+						"type": "DatasetReference"
+					},
+					"name": "sink1"
+				},
+				{
+					"dataset": {
+						"referenceName": "DsforCustomersSilverData",
+						"type": "DatasetReference"
+					},
+					"name": "sink2"
+				},
+				{
+					"dataset": {
+						"referenceName": "DSforDatesSilverData",
+						"type": "DatasetReference"
+					},
+					"name": "sink3"
+				},
+				{
+					"dataset": {
+						"referenceName": "DSforLocationSilverData",
+						"type": "DatasetReference"
+					},
+					"name": "sink4"
+				},
+				{
+					"dataset": {
+						"referenceName": "DSforTransactionsSilverData",
+						"type": "DatasetReference"
+					},
+					"name": "sink5"
+				}
+			],
+			"transformations": [
+				{
+					"name": "RemovingNullData01"
+				},
+				{
+					"name": "RemovingNullData02"
+				},
+				{
+					"name": "RemovingNullData03"
+				},
+				{
+					"name": "RemovingNullData04"
+				},
+				{
+					"name": "RemovingNullData05"
+				},
+				{
+					"name": "derivedColumn1"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          account_id as string,",
+				"          customer_id as string,",
+				"          account_type as string,",
+				"          branch_id as string,",
+				"          balance as string,",
+				"          currency as string,",
+				"          opening_date as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> AccountsRawData",
+				"source(output(",
+				"          customer_id as string,",
+				"          first_name as string,",
+				"          last_name as string,",
+				"          date_of_birth as string,",
+				"          email as string,",
+				"          zip_code as string,",
+				"          gender as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> CustomersRawData",
+				"source(output(",
+				"          date_key as string,",
+				"          full_date as string,",
+				"          day_of_week as string,",
+				"          month_name as string,",
+				"          year as string,",
+				"          is_weekend as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> DatesRawData",
+				"source(output(",
+				"          location_id as string,",
+				"          branch_id as string,",
+				"          branch_name as string,",
+				"          city as string,",
+				"          region as string,",
+				"          country as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> LocationRawData",
+				"source(output(",
+				"          transaction_id as string,",
+				"          account_id as string,",
+				"          customer_id as string,",
+				"          transaction_date as string,",
+				"          amount as string,",
+				"          transaction_type as string,",
+				"          merchant as string,",
+				"          location_id as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> TransactionsRawData",
+				"AccountsRawData filter(!isNull(account_id) && !isNull(customer_id) && !isNull(account_type) && !isNull(branch_id) && !isNull(balance) && !isNull(currency) && !isNull(opening_date)) ~> RemovingNullData01",
+				"CustomersRawData filter(!isNull(customer_id) && !isNull(first_name) && !isNull(last_name) && !isNull(date_of_birth) && !isNull(email) && !isNull(zip_code) && !isNull(gender)) ~> RemovingNullData02",
+				"DatesRawData filter(!isNull(date_key) && !isNull(full_date) && !isNull(day_of_week) && !isNull(month_name) && !isNull(year) && !isNull(is_weekend)) ~> RemovingNullData03",
+				"LocationRawData filter(!isNull(location_id) && !isNull(branch_id) && !isNull(branch_name) && !isNull(city) && !isNull(region) && !isNull(country)) ~> RemovingNullData04",
+				"TransactionsRawData filter(!isNull(transaction_id) && !isNull(account_id) && !isNull(customer_id) && \r",
+				"!isNull(transaction_date) && !isNull(amount) && !isNull(transaction_type) &&\r",
+				"!isNull(merchant) && !isNull(location_id)) ~> RemovingNullData05",
+				"RemovingNullData01 derive(account_type = initCap(account_type),",
+				"          branch_id = iif(branch_id == \"NULL\", \"N/A\", branch_id),",
+				"          balance = toDouble(replace('\"',''))\r",
+				"\r",
+				") ~> derivedColumn1",
+				"derivedColumn1 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     umask: 0022,",
+				"     preCommands: [],",
+				"     postCommands: [],",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> sink1",
+				"RemovingNullData02 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     umask: 0022,",
+				"     preCommands: [],",
+				"     postCommands: [],",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> sink2",
+				"RemovingNullData03 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     umask: 0022,",
+				"     preCommands: [],",
+				"     postCommands: [],",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> sink3",
+				"RemovingNullData04 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     umask: 0022,",
+				"     preCommands: [],",
+				"     postCommands: [],",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> sink4",
+				"RemovingNullData05 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     umask: 0022,",
+				"     preCommands: [],",
+				"     postCommands: [],",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> sink5"
+			]
+		}
+	}
+}

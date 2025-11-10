@@ -1,0 +1,49 @@
+{
+	"name": "DSforLocationRawData",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LSforADLS01",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": "Location-RawData.csv",
+				"folderPath": "RawData-Layer/RD",
+				"fileSystem": "bootcamp03-container"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"name": "location_id",
+				"type": "String"
+			},
+			{
+				"name": "branch_id",
+				"type": "String"
+			},
+			{
+				"name": "branch_name",
+				"type": "String"
+			},
+			{
+				"name": "city",
+				"type": "String"
+			},
+			{
+				"name": "region",
+				"type": "String"
+			},
+			{
+				"name": "country",
+				"type": "String"
+			}
+		]
+	}
+}

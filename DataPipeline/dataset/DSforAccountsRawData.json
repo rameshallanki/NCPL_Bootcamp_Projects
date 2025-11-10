@@ -1,0 +1,53 @@
+{
+	"name": "DSforAccountsRawData",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LSforADLS01",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": "Accounts-RawData.csv",
+				"folderPath": "RawData-Layer/RD",
+				"fileSystem": "bootcamp03-container"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"name": "account_id",
+				"type": "String"
+			},
+			{
+				"name": "customer_id",
+				"type": "String"
+			},
+			{
+				"name": "account_type",
+				"type": "String"
+			},
+			{
+				"name": "branch_id",
+				"type": "String"
+			},
+			{
+				"name": "balance",
+				"type": "String"
+			},
+			{
+				"name": "currency",
+				"type": "String"
+			},
+			{
+				"name": "opening_date",
+				"type": "String"
+			}
+		]
+	}
+}

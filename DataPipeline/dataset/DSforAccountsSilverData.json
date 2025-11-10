@@ -1,0 +1,23 @@
+{
+	"name": "DSforAccountsSilverData",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LSforADLS01",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"folderPath": "SilverData-Layer",
+				"fileSystem": "bootcamp03-container"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": []
+	}
+}

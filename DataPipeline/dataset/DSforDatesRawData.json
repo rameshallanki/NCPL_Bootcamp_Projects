@@ -1,0 +1,49 @@
+{
+	"name": "DSforDatesRawData",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LSforADLS01",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": "Dates-RawData.csv",
+				"folderPath": "RawData-Layer/RD",
+				"fileSystem": "bootcamp03-container"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"name": "date_key",
+				"type": "String"
+			},
+			{
+				"name": "full_date",
+				"type": "String"
+			},
+			{
+				"name": "day_of_week",
+				"type": "String"
+			},
+			{
+				"name": "month_name",
+				"type": "String"
+			},
+			{
+				"name": "year",
+				"type": "String"
+			},
+			{
+				"name": "is_weekend",
+				"type": "String"
+			}
+		]
+	}
+}
